@@ -4,28 +4,40 @@ from agents.data_analyst import (data_agent,execute_tool)
 
 from agents.race_engineer import (race_engineer_agent)
 
-load_dotenv()
+from graph.workflow import graph
 
-response = data_agent.invoke(
+
+# load_dotenv()
+
+# response = data_agent.invoke(
+#     {
+#         "question": "Who is leading the championship?"
+#     }
+# )
+
+# print(response.tool_calls)
+
+# if response.tool_calls:
+
+#     result = execute_tool(
+#         response.tool_calls[0]
+#     )
+
+#     print("result: " , result)
+
+#     report = race_engineer_agent.invoke(
+#         {
+#             "driver_data": result
+#         }
+#     )
+
+#     print("report: " , report)
+
+result = graph.invoke(
     {
-        "question": "Who is leading the championship?"
+        "question": "Cine conduce clasamentul"
     }
 )
 
-print(response.tool_calls)
+print(result["report"])
 
-if response.tool_calls:
-
-    result = execute_tool(
-        response.tool_calls[0]
-    )
-
-    print(result)
-
-    report = race_engineer_agent.invoke(
-        {
-            "driver_data": result
-        }
-    )
-
-    print(report)
