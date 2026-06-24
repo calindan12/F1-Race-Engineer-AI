@@ -3,15 +3,12 @@ from langchain_groq import ChatGroq
 from tools.driver_tools import get_driver_info
 from langchain_core.prompts import ChatPromptTemplate
 from langchain_core.output_parsers import StrOutputParser
+from config.llm import llm
 
 
 
 load_dotenv()
 
-llm = ChatGroq(
-    model="llama-3.3-70b-versatile",
-    temperature=0
-)
 
 prompt = ChatPromptTemplate.from_messages([
     (
