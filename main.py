@@ -5,6 +5,7 @@ from agents.data_analyst import (data_agent,execute_tool)
 from agents.race_engineer import (race_engineer_agent)
 
 from graph.workflow import graph
+from tools.context_tools import get_session_context
 
 
 # load_dotenv()
@@ -35,9 +36,20 @@ from graph.workflow import graph
 
 result = graph.invoke(
     {
-        "question": "Cine conduce clasamentul"
+        "question": "Adu informatii despre Max Verstappen din anul 2026"
     }
 )
 
 print(result["report"])
+
+
+# print(
+#     get_session_context.invoke(
+#         {
+#             "country_name": "Belgium",
+#             "session_name": "Sprint Qualifying",
+#             "year": 2023
+#         }
+#     )
+# )
 
