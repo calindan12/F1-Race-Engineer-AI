@@ -36,24 +36,29 @@ def get_team_session_result(team_name: str, session_key: int) -> dict:
     performance = []
 
     for driver in drivers:
-
         driver_result = results_by_driver.get(driver["driver_number"])
 
-        # print("driver_result: " , driver_result)
-
         if driver_result:
+            session_breakdown = []
 
-            qualifying_results = []
+            durations = driver_result.get("duration")
+            gaps = driver_result.get("gap_to_leader")
 
-            durations = driver_result["duration"]
-            gaps = driver_result["gap_to_leader"]
-
-            for i in range(len(durations)):
-                qualifying_results.append(
+            if isinstance(durations, list) and isinstance(gaps, list):
+                for i in range(len(durations)):
+                    session_breakdown.append(
+                        {
+                            "segment": f"Q{i + 1}",
+                            "duration": durations[i],
+                            "gap_to_leader": gaps[i]
+                        }
+                    )
+            else:
+                session_breakdown.append(
                     {
-                        "session": f"Q{i + 1}",
-                        "duration": durations[i],
-                        "gap_to_leader": gaps[i]
+                        "segment": "Final Result",
+                        "duration": durations,
+                        "gap_to_leader": gaps
                     }
                 )
 
@@ -61,12 +66,12 @@ def get_team_session_result(team_name: str, session_key: int) -> dict:
                 {
                     "driver": f"{driver['first_name']} {driver['last_name']}",
                     "driver_number": driver["driver_number"],
-                    "position": driver_result["position"],
-                    "number_of_laps": driver_result["number_of_laps"],
-                    "qualifying_results": qualifying_results,
-                    "dnf": driver_result["dnf"],
-                    "dns": driver_result["dns"],
-                    "dsq": driver_result["dsq"]
+                    "position": driver_result.get("position"),
+                    "number_of_laps": driver_result.get("number_of_laps"),
+                    "session_breakdown": session_breakdown,
+                    "dnf": driver_result.get("dnf"),
+                    "dns": driver_result.get("dns"),
+                    "dsq": driver_result.get("dsq")
                 }
             )
 

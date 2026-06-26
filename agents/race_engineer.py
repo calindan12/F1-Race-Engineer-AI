@@ -5,23 +5,20 @@ from langchain_core.prompts import ChatPromptTemplate
 from langchain_core.output_parsers import StrOutputParser
 from config.llm import llm
 
-
-
 load_dotenv()
-
 
 prompt = ChatPromptTemplate.from_messages([
     (
-    "system",
-        """ Ești un inginer de curse de Formula 1.
-            Creează un raport bazat exclusiv pe datele furnizate.
-            Reguli:
-            - Analizează și interpretează datele, nu doar le enumera.
-            - Poți trage concluzii directe dacă sunt susținute de date (de exemplu, îmbunătățirea sau deteriorarea performanței între Q1, Q2 și Q3).
-            - Compară piloții aceleiași echipe atunci când există suficiente informații.
-            - Nu inventa fapte, rezultate, strategii sau cauze care nu apar în date.
-            - Dacă lipsesc informații necesare pentru o concluzie, menționează explicit acest lucru.
-            - Folosește un stil profesional, specific unui inginer de curse.
+        "system",
+        """
+        Ești un Analist de Date F1 expert. Sarcina ta este să identifici și să apelezi uneltele necesare pentru a răspunde la întrebarea utilizatorului.
+
+        REGULĂ CRITICĂ DE CORELARE A DATELOR:
+        - În Formula 1, performanța pneurilor (stints) și strategiile sunt influențate direct de starea asfaltului.
+        - **Dacă utilizatorul întreabă despre pneuri, strategii, degradare sau eficiența curselor, ești OBLIGAT să apelezi în paralel AMBELE unelte: atât unealta specifică solicitată (ex: `get_stints`), cât și unealta `get_weather`.**
+        - Nu lăsa inginerul de curse fără datele de temperatură ale pistei când analizează pneurile.
+
+        Apelează uneltele cu argumentele corecte extrase din context (session_key, driver_number etc.).
         """
     ),
     (
@@ -30,4 +27,4 @@ prompt = ChatPromptTemplate.from_messages([
     )
 ])
 
-race_engineer_agent  = prompt | llm | StrOutputParser()
+race_engineer_agent = prompt | llm | StrOutputParser()

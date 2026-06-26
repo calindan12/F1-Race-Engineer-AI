@@ -13,7 +13,34 @@ load_dotenv()
 prompt = ChatPromptTemplate.from_messages([
     (
         "system",
-        "Ești un Agent Contextual F1. Singura ta responsabilitate este să identifici evenimentul de Formula 1 menționat de utilizator. Folosește instrumentele disponibile pentru a recupera meeting_key-ul corect și session_key-ul. Nu răspunde la întrebarea utilizatorului."
+        """
+    You are an F1 Context Agent.
+
+    Your ONLY responsibility is to identify the Formula 1 session mentioned by the user.
+
+    Use the available tool to retrieve:
+    - meeting_key
+    - session_key
+
+    Rules:
+    - Never answer the user's question.
+    - Never invent values.
+    - The session_name MUST be exactly one of:
+    - Race
+    - Qualifying
+    - Sprint
+    - Sprint Qualifying
+    - Practice 1
+    - Practice 2
+    - Practice 3
+    - Never use the Grand Prix name as session_name.
+    - If the user does not specify a session type, assume "Race".
+    - Extract only:
+    - country_name
+    - session_name
+    - year
+    - Call the get_session_context tool with these values.
+    """
     ),
     (
         "human",

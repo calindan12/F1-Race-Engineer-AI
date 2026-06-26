@@ -6,6 +6,7 @@ from agents.race_engineer import (race_engineer_agent)
 
 from graph.workflow import graph
 from tools.context_tools import get_session_context
+from tools.weather_tools import get_weather
 
 
 # load_dotenv()
@@ -36,20 +37,11 @@ from tools.context_tools import get_session_context
 
 result = graph.invoke(
     {
-        "question": "Adu informatii despre Max Verstappen din anul 2026"
+        "question": "De ce a pierdut Charles Leclerc poziții in Belgia 2023?"
     }
 )
 
 print(result["report"])
 
 
-# print(
-#     get_session_context.invoke(
-#         {
-#             "country_name": "Belgium",
-#             "session_name": "Sprint Qualifying",
-#             "year": 2023
-#         }
-#     )
-# )
 

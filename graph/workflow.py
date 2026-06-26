@@ -1,5 +1,7 @@
 from langgraph.graph import (StateGraph,START,END)
 
+from graph.analisys_router import analysis_router
+from graph.nodes.strategy_analyst_node import strategy_node
 from graph.router import router
 from graph.nodes.context_node import context_node
 from graph.state import F1State
@@ -25,6 +27,11 @@ builder.add_node(
     context_node
 )
 
+builder.add_node(
+    "strategy_analyst",
+    strategy_node
+)
+
 builder.add_conditional_edges(
     START,
     router,
@@ -36,7 +43,20 @@ builder.add_conditional_edges(
 
 builder.add_edge("context", "data_analyst")
 
-builder.add_edge("data_analyst", "race_engineer")
+builder.add_edge("data_analyst", "strategy_analyst")
+
+builder.add_conditional_edges(
+    "data_analyst",
+    analysis_router,
+    {
+        "strategy": "strategy_analyst",
+        "report": "race_engineer"
+    }
+)
+
+builder.add_edge("strategy_analyst", "race_engineer")
+builder.add_edge("race_engineer", END)
+
 
 builder.add_edge("race_engineer", END)
 

@@ -3,7 +3,24 @@ import requests
 
 @tool
 def get_session_context(country_name:str , session_name:str, year:int)->dict:
-    """Returns the context of the discussion"""
+    """
+    Returns the meeting_key and session_key for a Formula 1 session.
+
+    Arguments:
+    - country_name: the country where the Grand Prix took place.
+    - session_name: must be exactly one of:
+    - Race
+    - Qualifying
+    - Sprint
+    - Sprint Qualifying
+    - Practice 1
+    - Practice 2
+    - Practice 3
+    - year: Formula 1 season.
+
+    Do not pass the Grand Prix name as session_name.
+    If the user does not specify the session type, use "Race".
+    """
     response = requests.get(
         "https://api.openf1.org/v1/sessions",
         params={

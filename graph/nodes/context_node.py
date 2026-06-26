@@ -11,7 +11,17 @@ def context_node(state):
 
     tool_call = response.tool_calls[0]
     result = execute_tool(tool_call)
+
+    print(response.tool_calls)
+
+    print("rezultat: " , result)
     
+    if "error" in result:
+        raise ValueError(result["error"])
+
+    if "meeting_key" not in result:
+        raise ValueError(result)
+
     return {
         "meeting_key": result["meeting_key"],
         "session_key": result["session_key"],
